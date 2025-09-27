@@ -12,4 +12,6 @@ public partial class Todo
     public string Description { get; set; } = null!;
 
     public decimal Priority { get; set; }
+
+    public bool Isdone { get; set; }
 }

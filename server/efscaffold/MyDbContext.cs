@@ -24,6 +24,7 @@ public partial class MyDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Isdone).HasColumnName("isdone");
             entity.Property(e => e.Priority).HasColumnName("priority");
             entity.Property(e => e.Title).HasColumnName("title");
         });
