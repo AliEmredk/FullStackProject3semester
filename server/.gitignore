@@ -486,3 +486,6 @@ $RECYCLE.BIN/
 #appsetting files under server/api
 appsettings.json
 appsettings.Development.json
+
+#It’s a JetBrains Rider/ReSharper per-user settings file (machine-specific stuff like window layout, local inspections, etc.).
+*.DotSettings.user
