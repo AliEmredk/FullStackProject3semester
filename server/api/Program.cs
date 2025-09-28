@@ -1,18 +1,25 @@
+using api;
 using efscaffold.Entities;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var appOptions = builder.Services.AddAppOptions(builder.Configuration);
+
 builder.Services.AddDbContext<MyDbContext>(conf =>
 {
-    conf.UseNpgsql("Server=ep-nameless-scene-agbj7qqp-pooler.c-2.eu-central-1.aws.neon.tech;DB=neondb;UID=neondb_owner;PWD=npg_erGOQ8I3cbkT;SslMode=require");
+    conf.UseNpgsql(appOptions.DbConnectionString);
 });
 
 var app = builder.Build();
 
-app.MapGet("/", ([FromServices]MyDbContext dbContext) =>
+app.MapGet("/", (
+    
+    [FromServices]IOptionsMonitor<AppOptions> optionsMonitor,
+    [FromServices]MyDbContext dbContext) =>
 {
     var myTodo = new Todo()
     {
