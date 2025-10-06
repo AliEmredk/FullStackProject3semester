@@ -16,6 +16,9 @@ builder.Services.AddDbContext<MyDbContext>(conf =>
 {
     conf.UseNpgsql(appOptions.DbConnectionString);
 });
+    
+builder.Services.AddControllers();
+builder.Services.AddOpenApiDocument();
 
 builder.Services.AddCors();
 
@@ -27,23 +30,9 @@ app.UseCors(config => config
     .AllowAnyOrigin()
     .SetIsOriginAllowed(x => true));
 
-app.MapGet("/", (
-    
-    [FromServices]IOptionsMonitor<AppOptions> optionsMonitor,
-    [FromServices]MyDbContext dbContext) =>
-{
-    var myTodo = new Todo()
-    {
-        Description = "Test",
-        Title = "test title",
-        Id = Guid.NewGuid().ToString(),
-        Isdone = false,
-        Priority = 5
-    };
-    dbContext.Todos.Add(myTodo);
-    dbContext.SaveChanges();
-    var objects = dbContext.Todos.ToList();
-    return objects;
-});
+app.MapControllers();
+
+app.UseOpenApi();
+app.UseSwaggerUi();
 
 app.Run();
